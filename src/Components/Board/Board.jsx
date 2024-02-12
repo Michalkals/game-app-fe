@@ -18,10 +18,13 @@ const Board = () => {
     setBoard(newBoard);
 
     if (calculateWinner(newBoard)) {
-      const winner = isCircleTurn ? "computer" : "player";
+      const winner = isCircleTurn ? "player 2" : "player";
       updateScores(winner);
       addResult({ winner });
       setWinningMessage(winner);
+    } else if (newBoard.every((square) => square)) {
+      addResult({ winner: "tie" });
+      setWinningMessage("tie");
     }
 
     setIsCircleTurn(!isCircleTurn);
@@ -60,7 +63,9 @@ const Board = () => {
   };
 
   const resetBoard = () => {
-    restartBoard();
+    setBoard(Array(9).fill(null));
+    setWinningMessage(null);
+    setIsCircleTurn(false);
     resetScores();
   };
 
@@ -78,7 +83,11 @@ const Board = () => {
       {winningMessage && (
         <div className={`winning-message ${winningMessage && "show"}`}>
           <div data-winning-message-text>
-            {winningMessage === "player" ? "You win!" : "Player 2 wins!"}
+            {winningMessage === "player"
+              ? "You win!"
+              : winningMessage === "player 2"
+              ? "Player 2 wins!"
+              : "It's a tie!"}
           </div>
           <div className="buttons-div">
             <button onClick={restartBoard}>Restart</button>

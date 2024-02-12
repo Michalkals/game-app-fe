@@ -4,15 +4,15 @@ const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
   const [playerScore, setPlayerScore] = useState(0);
-  const [computerScore, setComputerScore] = useState(0);
+  const [playerTwoScore, setPlayerTwoScore] = useState(0);
   const [tieScore, setTieScore] = useState(0);
   const [gameResults, setGameResults] = useState([]);
 
   const updateScores = (result) => {
     if (result === "player") {
       setPlayerScore(playerScore + 1);
-    } else if (result === "computer") {
-      setComputerScore(computerScore + 1);
+    } else if (result === "player 2") {
+      setPlayerTwoScore(playerTwoScore + 1);
     } else {
       setTieScore(tieScore + 1);
     }
@@ -24,14 +24,14 @@ const GameContextProvider = ({ children }) => {
 
   const resetScores = () => {
     setPlayerScore(0);
-    setComputerScore(0);
+    setPlayerTwoScore(0);
     setTieScore(0);
-    setGameResults(null)
+    setGameResults([]);
   };
 
   const contextValue = {
     playerScore,
-    computerScore,
+    playerTwoScore,
     tieScore,
     gameResults,
     updateScores,
