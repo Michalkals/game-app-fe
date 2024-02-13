@@ -8,21 +8,14 @@ const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const login = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const data = await axios.post(
-        "http://localhost:8080/users/log-in",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
-      if (!data) {
-        navigate("/signup");
-      }
+      await axios.post("http://localhost:8080/users/login", formData);
       navigate("/");
     } catch (error) {
       console.error("Error during Login: ", error);
+      navigate("/signup");
     }
   };
   const changeHandler = (e) => {
@@ -31,10 +24,11 @@ const Login = () => {
   return (
     <div className="login-box">
       <h2>Login</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="user-box">
           <input
             type="email"
+            name="email"
             required
             value={formData.email}
             onChange={changeHandler}
@@ -44,13 +38,14 @@ const Login = () => {
         <div className="user-box">
           <input
             type="password"
+            name="password"
             required
             value={formData.password}
             onChange={changeHandler}
           />
           <label>Password</label>
         </div>
-        <button onClick={login}>
+        <button>
           <span></span>
           <span></span>
           <span></span>

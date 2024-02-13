@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const [formData, setFormData] = useState({
-    nickname: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -15,18 +14,13 @@ const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const navigate = useNavigate();
-  const signup = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:8080/users/signup",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
-      if (res.ok) {
-        navigate("/");
-      }
+      await axios.post("http://localhost:8080/users/signup", formData, {
+        withCredentials: true,
+      });
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +28,7 @@ const Signup = () => {
   return (
     <div className="login-box">
       <h2>Signup</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="user-box">
           <input
             type="text"
@@ -54,16 +48,6 @@ const Signup = () => {
             onChange={changeHandler}
           />
           <label>Last Name</label>
-        </div>
-        <div className="user-box">
-          <input
-            type="text"
-            name="nickname"
-            required
-            value={formData.nickname}
-            onChange={changeHandler}
-          />
-          <label>Username</label>
         </div>
         <div className="user-box">
           <input
@@ -95,7 +79,7 @@ const Signup = () => {
           />
           <label>Rephrase</label>
         </div>
-        <button onClick={signup}>
+        <button>
           <span></span>
           <span></span>
           <span></span>

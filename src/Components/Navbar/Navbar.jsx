@@ -15,7 +15,7 @@ const Navbar = () => {
         </div>
         <div>
           <NavLink
-            to="/log-in"
+            to="/login"
             className="nav-link"
             style={{ textDecoration: "none" }}
           >
