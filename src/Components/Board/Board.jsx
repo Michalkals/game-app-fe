@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGameContext } from "../../Context/GameContext";
 import "./Board.css";
+import axios from "axios";
 
 const Board = () => {
   const { updateScores, addResult, resetScores } = useGameContext();
@@ -22,6 +23,7 @@ const Board = () => {
       updateScores(winner);
       addResult({ winner });
       setWinningMessage(winner);
+      addToGamesPlayed();
     } else if (newBoard.every((square) => square)) {
       addResult({ winner: "tie" });
       setWinningMessage("tie");
@@ -68,6 +70,15 @@ const Board = () => {
     setIsCircleTurn(false);
     resetScores();
   };
+
+  const addToGamesPlayed = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/users/add-to-games-played")
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="board">
