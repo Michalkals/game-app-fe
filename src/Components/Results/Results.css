@@ -1,16 +1,5 @@
-.winning-message {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #0009;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-size: 5rem;
+h2 {
+  margin-left: 10px;
 }
 
 .result-list {
@@ -23,9 +12,4 @@
 
 .result-list > li {
   margin-top: 10px;
-}
-
-.results-div {
-  position: relative;
-  bottom: 12em;
 }

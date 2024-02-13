@@ -1,0 +1,25 @@
+.navbar {
+  width: 100%;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+  height: 60px;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  transition: color 0.3s ease-in-out;
+  margin-right: 15px;
+}
+
+.nav-link:hover {
+  color: #61dafb;
+}
