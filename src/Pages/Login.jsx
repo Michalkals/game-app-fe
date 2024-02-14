@@ -28,7 +28,6 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       console.error("Error during Login: ", error);
-      navigate("/signup");
     }
   };
   const changeHandler = (e) => {

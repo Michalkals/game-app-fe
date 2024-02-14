@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Board = () => {
-  const { playerScore, playerTwoScore, tieScore, updateScores, addResult, resetScores } = useGameContext();
+  const { saveUserScore, playerScore, playerTwoScore, tieScore, updateScores, addResult, resetScores } = useGameContext();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isCircleTurn, setIsCircleTurn] = useState(false);
   const [winningMessage, setWinningMessage] = useState(null);
@@ -73,23 +73,8 @@ const Board = () => {
     resetScores();
   };
 
-  const addToGamesPlayed = async () => {
-    try {
-      const totalGamesPlayed = playerScore + playerTwoScore + tieScore;
-      const winRatio = playerScore / totalGamesPlayed;
-      const newScore={
-        userId: localStorage.getItem('userId'),
-        nickname: localStorage.getItem('nickname'),
-        score: winRatio,
-      }
-      const response = await axios.post("http://localhost:8080/scores/new-score", newScore, {
-        withCredentials: true
-      })
-      navigate("/");
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
+  const addToGamesPlayed = () => {
+  saveUserScore()
   }
 
   return (
@@ -113,9 +98,9 @@ const Board = () => {
               : "It's a tie!"}
           </div>
           <div className="buttons-div">
-            <button onClick={restartBoard}>Restart</button>
-            <button onClick={resetBoard}>Reset</button>
-            <button onClick={addToGamesPlayed}>Save Score and Finish</button>
+            <button className= "buttons-div btn" onClick={restartBoard}>Continue</button>
+            <button className= "buttons-div btn" onClick={resetBoard}>Reset</button>
+            <button className= "buttons-div btn" onClick={addToGamesPlayed}>Save Score</button>
           </div>
         </div>
       )}

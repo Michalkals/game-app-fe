@@ -10,6 +10,8 @@ const GameContextProvider = ({ children }) => {
   const [gameResults, setGameResults] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  
+
   const updateScores = (result) => {
     if (result === "player") {
       setPlayerScore(playerScore + 1);
@@ -20,8 +22,30 @@ const GameContextProvider = ({ children }) => {
     }
   };
 
+  const saveUserScore = async() =>{
+    try {
+      const totalGamesPlayed = playerScore + playerTwoScore + tieScore;
+      console.log(totalGamesPlayed, playerScore, playerTwoScore, tieScore)
+      const winRatio = playerScore / totalGamesPlayed;
+      const newScore={
+        userId: localStorage.getItem('userId'),
+        nickname: localStorage.getItem('nickname'),
+        score: winRatio,
+      }
+      console.log(newScore)
+      const response = await axios.post("http://localhost:8080/scores/new-score", newScore, {
+        withCredentials: true
+      })
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+  
   const addResult = (result) => {
     setGameResults([...gameResults, result]);
+    console.log(...gameResults, result)
   };
 
   const resetScores = () => {
@@ -73,6 +97,7 @@ const GameContextProvider = ({ children }) => {
     addResult,
     resetScores,
     handleLogout,
+    saveUserScore
   };
 
   return (

@@ -133,4 +133,13 @@
   width: 50%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+.buttons-div .btn{
+  padding: 10px;
+  font-size: 1.5rem;
+  width: auto;
+}
+.buttons-div.btn:hover{
+  background-color: rgb(31, 41, 87);
 }

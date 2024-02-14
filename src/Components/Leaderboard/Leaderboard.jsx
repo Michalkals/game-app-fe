@@ -11,7 +11,13 @@ const Leaderboard = () => {
         withCredentials: true,
       })
       .then((response) => {
-        setUserScores(response.data.userScores);
+        const sortedScores = response.data.userScores.sort((a, b) => b.score - a.score);
+        const formattedScores = sortedScores.map((userScore) => {
+          const date = new Date(userScore.date);
+          const formattedDate = `${date.getDate()}-${date.toLocaleString('default', { month: 'short' })}-${date.getFullYear()}`;
+          return { ...userScore, date: formattedDate };
+        });
+        setUserScores(formattedScores);
       })
       .catch((error) => {
         console.error(error);
@@ -25,6 +31,7 @@ const Leaderboard = () => {
           <div key={index} className="user-score-card">
             <p className="user-nickname">{userScore.nickname}</p>
             <p className="user-score">Score: {userScore.score}</p>
+            <p className="user-score">At: {userScore.date}</p>
           </div>
         ))}
       </div>

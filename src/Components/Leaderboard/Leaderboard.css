@@ -1,0 +1,13 @@
+.leaderboard-container{
+    margin: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.user-score-card{
+    font-size: 1rem;
+    padding: 20px;
+    width: 250px;
+    border-bottom: solid 1px;
+}
