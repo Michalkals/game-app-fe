@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Board = () => {
-  const { saveUserScore, playerScore, playerTwoScore, tieScore, updateScores, addResult, resetScores } = useGameContext();
+  const { saveUserScore, updateScores, addResult, resetScores } = useGameContext();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isCircleTurn, setIsCircleTurn] = useState(false);
   const [winningMessage, setWinningMessage] = useState(null);
@@ -27,8 +27,10 @@ const Board = () => {
       addResult({ winner });
       setWinningMessage(winner);
     } else if (newBoard.every((square) => square)) {
+      updateScores("tie");
       addResult({ winner: "tie" });
       setWinningMessage("tie");
+      addToGamesPlayed();
     }
 
     setIsCircleTurn(!isCircleTurn);
@@ -73,9 +75,12 @@ const Board = () => {
     resetScores();
   };
 
+
   const addToGamesPlayed = () => {
   saveUserScore()
   }
+
+ 
 
   return (
     <div className="board">
