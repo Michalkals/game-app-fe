@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useGameContext } from "../Context/GameContext";
 const Signup = () => {
+  const [isSigned, setIsSigned] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -12,19 +13,21 @@ const Signup = () => {
     password: "",
     rePassword: "",
   });
-  const { setIsLoggedIn } = useGameContext();
+ 
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const navigate = useNavigate();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/users/signup", formData, {
+      const res= await axios.post("http://localhost:8080/users/signup", formData, {
         withCredentials: true,
       });
-      setIsLoggedIn(true);
-      navigate("/");
+      if(res.data.success){
+      setIsSigned(true)
+      }
     } catch (error) {
       console.error(error);
     }
@@ -93,6 +96,7 @@ const Signup = () => {
           />
           <label>Rephrase</label>
         </div>
+        {isSigned&&<p> Please Log In </p>}
         <button>
           <span></span>
           <span></span>

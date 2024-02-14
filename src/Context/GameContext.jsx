@@ -54,6 +54,8 @@ const GameContextProvider = ({ children }) => {
       await axios.get("http://localhost:8080/users/log-out", {
         withCredentials: true,
       });
+      localStorage.removeItem('userId');
+      localStorage.removeItem('nickname');
       setIsLoggedIn(false);
     } catch (error) {
       console.error("Error during logout: ", error);
