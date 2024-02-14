@@ -25,7 +25,6 @@ const GameContextProvider = ({ children }) => {
   const saveUserScore = async() =>{
     try {
       const totalGamesPlayed = playerScore + playerTwoScore + tieScore;
-      console.log(totalGamesPlayed, playerScore, playerTwoScore, tieScore)
       const winRatio = playerScore / totalGamesPlayed;
       const newScore={
         userId: localStorage.getItem('userId'),
