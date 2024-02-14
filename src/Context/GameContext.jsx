@@ -1,4 +1,5 @@
-import { createContext, useState, useContext } from "react";
+import axios from "axios";
+import { createContext, useState, useContext, useEffect } from "react";
 
 const GameContext = createContext();
 
@@ -7,6 +8,7 @@ const GameContextProvider = ({ children }) => {
   const [playerTwoScore, setPlayerTwoScore] = useState(0);
   const [tieScore, setTieScore] = useState(0);
   const [gameResults, setGameResults] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const updateScores = (result) => {
     if (result === "player") {
@@ -29,14 +31,45 @@ const GameContextProvider = ({ children }) => {
     setGameResults([]);
   };
 
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/users/check-status",
+          {
+            withCredentials: true,
+          }
+        );
+        setIsLoggedIn(response.data.ok);
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkAuthentication();
+  }, []);
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:8080/users/log-out", {
+        withCredentials: true,
+      });
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error("Error during logout: ", error);
+    }
+  };
+
   const contextValue = {
     playerScore,
     playerTwoScore,
     tieScore,
     gameResults,
+    isLoggedIn,
+    setIsLoggedIn,
     updateScores,
     addResult,
     resetScores,
+    handleLogout,
   };
 
   return (

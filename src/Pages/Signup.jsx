@@ -2,14 +2,17 @@ import { useState } from "react";
 import "./CSS/LoginSignup.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useGameContext } from "../Context/GameContext";
 const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    nickname: "",
     email: "",
     password: "",
     rePassword: "",
   });
+  const { setIsLoggedIn } = useGameContext();
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -20,6 +23,7 @@ const Signup = () => {
       await axios.post("http://localhost:8080/users/signup", formData, {
         withCredentials: true,
       });
+      setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -48,6 +52,16 @@ const Signup = () => {
             onChange={changeHandler}
           />
           <label>Last Name</label>
+        </div>
+        <div className="user-box">
+          <input
+            type="text"
+            name="nickname"
+            required
+            value={formData.nickname}
+            onChange={changeHandler}
+          />
+          <label>Username</label>
         </div>
         <div className="user-box">
           <input

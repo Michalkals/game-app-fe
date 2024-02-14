@@ -2,16 +2,23 @@ import axios from "axios";
 import { useState } from "react";
 import "./CSS/LoginSignup.css";
 import { useNavigate } from "react-router-dom";
+import { useGameContext } from "../Context/GameContext";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
+    nickname: "",
     password: "",
   });
+  const { setIsLoggedIn } = useGameContext();
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/users/login", formData);
+      await axios.post("http://localhost:8080/users/login", formData, {
+        withCredentials: true,
+      });
+      setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
       console.error("Error during Login: ", error);
@@ -25,6 +32,16 @@ const Login = () => {
     <div className="login-box">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
+        <div className="user-box">
+          <input
+            type="text"
+            name="nickname"
+            required
+            value={formData.nickname}
+            onChange={changeHandler}
+          />
+          <label>Username</label>
+        </div>
         <div className="user-box">
           <input
             type="email"

@@ -1,10 +1,22 @@
+import { useGameContext } from "../../Context/GameContext";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
+
 const Navbar = () => {
+  const { isLoggedIn, handleLogout } = useGameContext();
   return (
     <div className="navbar">
       <div className="nav-menu">
-        <div>
+        <div className="left-menu">
+          <NavLink
+            to="/leaderboard"
+            className="nav-link"
+            style={{ textDecoration: "none" }}
+          >
+            Leaderboard
+          </NavLink>
+        </div>
+        <div className="right-menu">
           <NavLink
             to="/"
             className="nav-link"
@@ -12,24 +24,30 @@ const Navbar = () => {
           >
             Home
           </NavLink>
-        </div>
-        <div>
-          <NavLink
-            to="/login"
-            className="nav-link"
-            style={{ textDecoration: "none" }}
-          >
-            Login
-          </NavLink>
-        </div>
-        <div>
-          <NavLink
-            to="/signup"
-            className="nav-link"
-            style={{ textDecoration: "none" }}
-          >
-            Signup
-          </NavLink>
+          {isLoggedIn ? (
+            <>
+              <button onClick={handleLogout} className="nav-link-btn">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="nav-link"
+                style={{ textDecoration: "none" }}
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="nav-link"
+                style={{ textDecoration: "none" }}
+              >
+                Signup
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </div>
