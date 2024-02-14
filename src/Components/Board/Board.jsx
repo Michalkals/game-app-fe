@@ -25,8 +25,10 @@ const Board = () => {
       setWinningMessage(winner);
       addToGamesPlayed();
     } else if (newBoard.every((square) => square)) {
+      updateScores("tie");
       addResult({ winner: "tie" });
       setWinningMessage("tie");
+      addToGamesPlayed();
     }
 
     setIsCircleTurn(!isCircleTurn);
@@ -73,12 +75,14 @@ const Board = () => {
 
   const addToGamesPlayed = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/users/add-to-games-played")
-      console.log(response)
+      const response = await axios.post(
+        "http://localhost:8080/users/add-to-games-played"
+      );
+      console.log(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div className="board">

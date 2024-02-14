@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import "./CSS/AdminPage.css"
+import { useEffect, useState } from "react";
+import "./CSS/AdminPage.css";
 
 const AdminPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -46,9 +46,9 @@ const AdminPage = () => {
               </tr>
             </thead>
             <tbody>
-              {userList.map((user) => {
+              {userList.map((user, i) => {
                 return (
-                  <tr>
+                  <tr key={i}>
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
                     <td>{user.email}</td>
