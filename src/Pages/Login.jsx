@@ -12,13 +12,19 @@ const Login = () => {
   const { setIsLoggedIn } = useGameContext();
 
   const navigate = useNavigate();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/users/login", formData, {
+      const res = await axios.post("http://localhost:8080/users/login", formData, {
         withCredentials: true,
       });
+      console.log(res.data)
+      const userId = res.data.user._id;
+      const nickname = res.data.user.nickname;
       setIsLoggedIn(true);
+      localStorage.setItem('userId', userId);
+      localStorage.setItem('nickname', nickname);
       navigate("/");
     } catch (error) {
       console.error("Error during Login: ", error);

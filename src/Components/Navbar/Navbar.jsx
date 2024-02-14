@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const { isLoggedIn, handleLogout } = useGameContext();
+
   return (
     <div className="navbar">
       <div className="nav-menu">
@@ -24,13 +25,12 @@ const Navbar = () => {
           >
             Home
           </NavLink>
-          {isLoggedIn ? (
-            <>
-              <button onClick={handleLogout} className="nav-link-btn">
-                Logout
-              </button>
-            </>
-          ) : (
+          {isLoggedIn && (
+            <button onClick={handleLogout} className="nav-link-btn">
+              Logout
+            </button>
+          )}
+          {!isLoggedIn && (
             <>
               <NavLink
                 to="/login"
@@ -39,13 +39,13 @@ const Navbar = () => {
               >
                 Login
               </NavLink>
-              <NavLink
+              {!isLoggedIn && ( <NavLink
                 to="/signup"
                 className="nav-link"
                 style={{ textDecoration: "none" }}
               >
                 Signup
-              </NavLink>
+              </NavLink>)}
             </>
           )}
         </div>
@@ -53,5 +53,4 @@ const Navbar = () => {
     </div>
   );
 };
-
 export default Navbar;

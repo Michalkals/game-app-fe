@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useGameContext } from "../../Context/GameContext";
 import "./Board.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Board = () => {
-  const { updateScores, addResult, resetScores } = useGameContext();
+  const { playerScore, playerTwoScore, tieScore, updateScores, addResult, resetScores } = useGameContext();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isCircleTurn, setIsCircleTurn] = useState(false);
   const [winningMessage, setWinningMessage] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleClick = (index) => {
     if (board[index] || calculateWinner(board)) {
@@ -23,7 +26,6 @@ const Board = () => {
       updateScores(winner);
       addResult({ winner });
       setWinningMessage(winner);
-      addToGamesPlayed();
     } else if (newBoard.every((square) => square)) {
       updateScores("tie");
       addResult({ winner: "tie" });
@@ -75,10 +77,18 @@ const Board = () => {
 
   const addToGamesPlayed = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/users/add-to-games-played"
-      );
-      console.log(response);
+      const totalGamesPlayed = playerScore + playerTwoScore + tieScore;
+      const winRatio = playerScore / totalGamesPlayed;
+      const newScore={
+        userId: localStorage.getItem('userId'),
+        nickname: localStorage.getItem('nickname'),
+        score: winRatio,
+      }
+      const response = await axios.post("http://localhost:8080/scores/new-score", newScore, {
+        withCredentials: true
+      })
+      navigate("/");
+      console.log(response)
     } catch (error) {
       console.log(error);
     }
@@ -107,6 +117,7 @@ const Board = () => {
           <div className="buttons-div">
             <button onClick={restartBoard}>Restart</button>
             <button onClick={resetBoard}>Reset</button>
+            <button onClick={addToGamesPlayed}>Save Score and Finish</button>
           </div>
         </div>
       )}
