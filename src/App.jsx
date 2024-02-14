@@ -4,6 +4,8 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Navbar from "./Components/Navbar/Navbar";
 import Leaderboard from "./Components/Leaderboard/Leaderboard";
+import AdminPage from "./Pages/AdminPage";
+
 const App = () => {
   return (
     <Router>
@@ -13,6 +15,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </Router>
   );

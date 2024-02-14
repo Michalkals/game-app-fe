@@ -48,6 +48,7 @@ const GameContextProvider = ({ children }) => {
 
     checkAuthentication();
   }, []);
+
   const handleLogout = async () => {
     try {
       await axios.get("http://localhost:8080/users/log-out", {
