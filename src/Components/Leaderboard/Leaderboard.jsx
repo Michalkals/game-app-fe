@@ -4,17 +4,22 @@ import "./Leaderboard.css";
 
 const Leaderboard = () => {
   const [userScores, setUserScores] = useState([]);
-
+  
   useEffect(() => {
     axios
       .get("http://localhost:8080/scores/user-scores", {
         withCredentials: true,
       })
       .then((response) => {
-        const sortedScores = response.data.userScores.sort((a, b) => b.score - a.score);
+        const sortedScores = response.data.userScores.sort(
+          (a, b) => b.score - a.score
+        );
         const formattedScores = sortedScores.map((userScore) => {
           const date = new Date(userScore.date);
-          const formattedDate = `${date.getDate()}-${date.toLocaleString('default', { month: 'short' })}-${date.getFullYear()}`;
+          const formattedDate = `${date.getDate()}-${date.toLocaleString(
+            "default",
+            { month: "short" }
+          )}-${date.getFullYear()}`;
           return { ...userScore, date: formattedDate };
         });
         setUserScores(formattedScores);
@@ -35,6 +40,7 @@ const Leaderboard = () => {
           </div>
         ))}
       </div>
+      
     </div>
   );
 };

@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useGameContext } from "../../Context/GameContext";
 import "./Board.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const Board = () => {
-  const { saveUserScore, updateScores, addResult, resetScores } = useGameContext();
+  const { saveUserScore, updateScores, addResult, resetScores } =
+    useGameContext();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isCircleTurn, setIsCircleTurn] = useState(false);
   const [winningMessage, setWinningMessage] = useState(null);
-
-  const navigate = useNavigate();
+  const [gameScores, setGameScores] = useState({
+    player: 0,
+    player2: 0,
+    tie: 0,
+  });
 
   const handleClick = (index) => {
     if (board[index] || calculateWinner(board)) {
@@ -26,11 +28,18 @@ const Board = () => {
       updateScores(winner);
       addResult({ winner });
       setWinningMessage(winner);
+      setGameScores((prevScores) => ({
+        ...prevScores,
+        [winner]: prevScores[winner] + 1,
+      }));
     } else if (newBoard.every((square) => square)) {
       updateScores("tie");
       addResult({ winner: "tie" });
       setWinningMessage("tie");
-      addToGamesPlayed();
+      setGameScores((prevScores) => ({
+        ...prevScores,
+        tie: prevScores.tie + 1,
+      }));
     }
 
     setIsCircleTurn(!isCircleTurn);
@@ -75,12 +84,9 @@ const Board = () => {
     resetScores();
   };
 
-
   const addToGamesPlayed = () => {
-  saveUserScore()
-  }
-
- 
+    saveUserScore(gameScores.player, gameScores.player2, gameScores.tie);
+  };
 
   return (
     <div className="board">
@@ -103,9 +109,15 @@ const Board = () => {
               : "It's a tie!"}
           </div>
           <div className="buttons-div">
-            <button className= "buttons-div btn" onClick={restartBoard}>Continue</button>
-            <button className= "buttons-div btn" onClick={resetBoard}>Reset</button>
-            <button className= "buttons-div btn" onClick={addToGamesPlayed}>Save Score</button>
+            <button className="buttons-div btn" onClick={restartBoard}>
+              Continue
+            </button>
+            <button className="buttons-div btn" onClick={resetBoard}>
+              Reset
+            </button>
+            <button className="buttons-div btn" onClick={addToGamesPlayed}>
+              Save Score
+            </button>
           </div>
         </div>
       )}
