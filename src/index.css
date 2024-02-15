@@ -1,14 +1,14 @@
 *,
 *::after,
 *::before {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
+  max-height: 95vh;
+  max-width: 99vw;
   color: #fff;
   background-color: #243b55;
   font-family: "Poppins", sans-serif;

@@ -5,8 +5,11 @@ import "./Leaderboard.css";
 const Leaderboard = () => {
   const [userScores, setUserScores] = useState([]);
   const [currentUserScores, setCurrentUserScores] = useState([])
-
-
+  const [showUserScores, setShowUserScores] = useState(false); 
+  const toggleUserScores = () => {
+    setShowUserScores(!showUserScores);
+    getUserScores()
+  };
   const getUserScores=()=>{
     axios.get("http://localhost:8080/scores/user-scores", {
         withCredentials: true,
@@ -56,26 +59,50 @@ getAllUsersHighestScores()
   return (
     <div className="main">
       <div className="leaderboard-container">
-        <p>Top three Records</p>
-        {userScores && userScores.map((userScore, index) => (
-          <div key={index} className="user-score-card">
-            <p className="user-nickname">{userScore.nickname}</p>
-            <p className="user-score">Score: {userScore.score}</p>
-            <p className="user-score">At: {userScore.date}</p>
+        <p className="leaderboard-heading">Top Three Records</p>
+        <div className="leaderboard">
+          <div className="user-score-row header-row">
+            <div className="user-score-item">#</div>
+            <div className="user-score-item">Nickname</div>
+            <div className="user-score-item">Score</div>
+            <div className="user-score-item">Date</div>
           </div>
-        ))}
+          {userScores &&
+            userScores.map((userScore, index) => (
+              <div key={index} className="user-score-row">
+                <div className="user-score-item">{index + 1}</div>
+                <div className="user-score-item">{userScore.nickname}</div>
+                <div className="user-score-item">{userScore.score}</div>
+                <div className="user-score-item">{userScore.date}</div>
+              </div>
+            ))}
+        </div>
       </div>
+
       <div className="leaderboard-container2">
-        <button className="leaderBoardBtn" onClick={getUserScores}>My Record History</button>
-        {currentUserScores && currentUserScores.map((userScore, index) => (
-          <div key={index} className="user-score-card">
-            <p className="user-nickname">{userScore.nickname}</p>
-            <p className="user-score">Score: {userScore.score}</p>
-            <p className="user-score">At: {userScore.date}</p>
+        <button className="leaderBoardBtn" onClick={toggleUserScores}>
+          {showUserScores ? "Hide My Record History" : "Show My Record History"}
+        </button>
+        {showUserScores && (
+          <div className="leaderboard">
+            <div className="user-score-row header-row">
+              <div className="user-score-item">#</div>
+              <div className="user-score-item">Nickname</div>
+              <div className="user-score-item">Score</div>
+              <div className="user-score-item">Date</div>
+            </div>
+            {currentUserScores &&
+              currentUserScores.map((userScore, index) => (
+                <div key={index} className="user-score-row">
+                  <div className="user-score-item">{index + 1}</div>
+                  <div className="user-score-item">{userScore.nickname}</div>
+                  <div className="user-score-item">{userScore.score}</div>
+                  <div className="user-score-item">{userScore.date}</div>
+                </div>
+              ))}
           </div>
-        ))}
+        )}
       </div>
-      
     </div>
   );
 };

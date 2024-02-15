@@ -9,6 +9,7 @@ const GameContextProvider = ({ children }) => {
   const [tieScore, setTieScore] = useState(0);
   const [gameResults, setGameResults] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const updateScores = (result) => {
     if (result === "player") {
@@ -60,6 +61,8 @@ const GameContextProvider = ({ children }) => {
         setIsLoggedIn(response.data.ok);
       } catch (error) {
         setIsLoggedIn(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -91,6 +94,7 @@ const GameContextProvider = ({ children }) => {
     resetScores,
     handleLogout,
     saveUserScore,
+    isLoading,
   };
 
   return (
