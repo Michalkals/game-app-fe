@@ -1,9 +1,16 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 .leaderboard-container{
     margin: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border:  solid 1px;;
 }
 .user-score-card{
     font-size: 1rem;
@@ -11,3 +18,27 @@
     width: 250px;
     border-bottom: solid 1px;
 }
+
+.leaderBoardBtn {
+    position: relative;
+    display: inline-flex;
+    padding: 10px 20px;
+    color: #03e9f4;
+    font-size: 16px;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    margin-top: 40px;
+    letter-spacing: 4px;
+    background: transparent;
+    border: 2px solid #03e9f4;
+    cursor: pointer;
+  }
+  
+  .leaderBoardBtn:hover {
+    background-color: #03e9f4;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+  }
